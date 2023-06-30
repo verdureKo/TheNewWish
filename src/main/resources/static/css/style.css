@@ -1,0 +1,46 @@
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f1f1f1;
+    padding: 20px;
+  }
+  a {
+      text-decoration: none;
+      color: black;
+  }
+  a:hover {
+    color: black;
+  }
+  @media (min-width: 992px) {
+  .container {
+      width: 940px;
+      top: 300px;
+  }
+  
+}
+  .board {
+      margin-top:150px;
+  }
+  .info-img {
+      width: 65px;
+      height: 65px;
+      background-color: blanchedalmond;
+  }
+  .content {
+      width: 100%;
+      border: 2px grey dotted;
+      padding : 10px;
+  }
+  .divide-line {
+      margin: 50px 0px;
+  }
+  .comment-info-img {
+      width: 50px;
+      height: 50px;
+      background-color: blanchedalmond;
+  }
+  .input-form {
+    margin-top:150px;
+  }
