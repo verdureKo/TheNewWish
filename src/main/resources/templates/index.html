@@ -11,13 +11,72 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet" />
-<link href="/resources/static/css/style.css" rel="stylesheet">
+<link href="/css/style.css" rel="stylesheet">
 <script>
     function updateBoard(){}
     function deleteBoard(){}
-    function createComment(){}
-    function success(){}
-    function fail(){}
+    function createComment() {
+        // textarea 태그의 내용 가져오기
+        let comment = document.getElementById('comment-content').value;
+        // 게시글 아이디 가져오기
+        let postId = null;
+
+        // API 요청을 위한 데이터 준비
+        let data = {
+            postId: postId,
+            comment: comment
+        };
+
+        // API 엔드포인트 설정
+        let url = '/moc/challenges/'+postId+'/replys';
+
+        // API 요청 보내기
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function(response) {
+                // 응답 처리
+                if (response.ok) {
+                    // 성공적인 응답 처리
+                    console.log('댓글이 성공적으로 작성되었습니다.');
+                } else {
+                    // 오류 응답 처리
+                    console.log('댓글 작성에 실패했습니다.');
+                }
+            })
+            .catch(function(error) {
+                // 에러 처리
+                console.log('댓글 작성 중 오류가 발생했습니다.', error);
+            });
+    }
+
+    function success(){
+        // content + postId
+        let content = document.getElementById("content1");
+        let success_btn = document.getElementById("success-btn-1")
+        let fail_btn = document.getElementById("fail-btn-1")
+        if (confirm("성공버튼을 누르시겠습니까?")) {
+            content.style.border = "3px dotted green";
+            alert("축하합니다!")
+            success_btn.disabled = true
+            fail_btn.disabled = true
+        }
+    }
+    function fail(){
+        // content + postId
+        let content = document.getElementById("content1");
+        let success_btn = document.getElementById("success-btn-1")
+        let fail_btn = document.getElementById("fail-btn-1")
+        if (confirm("실패버튼을 누르시겠습니까?")) {
+            content.style.border = "3px dotted red";
+            success_btn.disabled = true
+            fail_btn.disabled = true
+        }
+    }
 </script>
     <title>메인 화면</title>
 </head>
@@ -42,7 +101,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-md-12">
-                <div class="written-content content">
+                <div class="written-content content" id="content1">
                     <p>내용 샘플</p>
                     <p>내용 샘플</p>
                     <p>내용 샘플</p>
@@ -61,10 +120,10 @@
         <div class="row mt-2">
             <div class="col-md-12 d-flex justify-content-between">
                 <div class="align-items-center d-flex">
-                    <h3 class="timer d-inline">00:00:00</h3>
+                    <h3 class="timer d-inline">10:59:59</h3>
                     <div class="challenge-btn-box d-inline mx-3">
-                        <button onclick="success()" class="btn btn-primary">성공</button>
-                        <button onclick="fail()" class="btn btn-outline-primary">실패</button>
+                        <button onclick="success()" class="btn btn-primary" id="success-btn-1">성공</button>
+                        <button onclick="fail()" class="btn btn-outline-primary" id="fail-btn-1">실패</button>
                     </div>
                 </div>
                 <div class="align-items-center d-flex">
@@ -75,15 +134,14 @@
             </div>
             </div>
         </div>
-        <!-- 여기까지 복붙-->
         <hr class="hr divide-line">
         <div class="row">
             <div class="col-md-12">
                 <div class="comment-box">
-                    <h3 class="d-inline">댓글</h3><h3 id="comment-count" class="d-inline ms-2">0</h3>
+                    <h3 class="d-inline">댓글</h3><h3 id="comment-count-1" class="d-inline ms-2">0</h3>
                 </div>
                 <div class="comment-board mt-3">
-                    <textarea class="content form-control col-sm-5" rows="5"></textarea>
+                    <textarea class="content form-control col-sm-5" id="comment-content-1" rows="5"></textarea>
                     <!-- 댓글 등록 POST 글 번호, 댓글 내용 전달  -->
                     <button onclick="createComment()" class="btn btn-primary mt-2">등록하기</button>
                 </div>
@@ -115,6 +173,91 @@
                 </div>
             </div>
         </div>
+        <!-- 여기까지 복붙-->
+        <!-- 여기부터 복붙 -->
+        <div class="row">
+            <div class="col-md-12 board">
+                <div class="info-box">
+                    <img src="" alt="" class="info-img rounded-circle border">
+                    <span class="info-name">아이디</span>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="written-content content" id="content2">
+                    <p>내용 샘플</p>
+                    <p>내용 샘플</p>
+                    <p>내용 샘플</p>
+                    <p>내용 샘플</p>
+                    <p>내용 샘플</p>
+                    <p>내용 샘플</p>
+                    <p>내용 샘플</p>
+                    <p>내용 샘플</p>
+                    <p>내용 샘플</p>
+                    <p>내용 샘플</p>
+                    <p>내용 샘플</p>
+                    <p>내용 샘플</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-12 d-flex justify-content-between">
+                <div class="align-items-center d-flex">
+                    <h3 class="timer d-inline">03:29:00</h3>
+                    <div class="challenge-btn-box d-inline mx-3">
+                        <button onclick="success()" class="btn btn-primary" id="success-btn-2">성공</button>
+                        <button onclick="fail()" class="btn btn-outline-primary" id="fail-btn-2">실패</button>
+                    </div>
+                </div>
+                <div class="align-items-center d-flex">
+                    <!-- 글 수정 페이지 GET 글번호 전달 -->
+                    <button onclick="updateBoard()" class="btn btn-primary" value="">글 수정</button>
+                    <!--글 삭제 DELETE 글번호 전달 -->
+                    <button onclick="deleteBoard()" class="btn btn-primary" value="">글 삭제</button>
+                </div>
+            </div>
+        </div>
+        <hr class="hr divide-line">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="comment-box">
+                    <h3 class="d-inline">댓글</h3><h3 id="comment-count-2" class="d-inline ms-2">0</h3>
+                </div>
+                <div class="comment-board mt-3">
+                    <textarea class="content form-control col-sm-5" id="comment-content-2" rows="5"></textarea>
+                    <!-- 댓글 등록 POST 글 번호, 댓글 내용 전달  -->
+                    <button onclick="createComment()" class="btn btn-primary mt-2">등록하기</button>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="comment-info-box mt-4 d-flex">
+                    <div class="info-box d-flex flex-column">
+                        <img src="" alt="" class="comment-info-img rounded-circle border">
+                        <span class="info-name">아이디</span>
+                    </div>
+                    <div class="ms-4 comment-written-content">
+                        <p>내용 샘플</p>
+                        <p>내용 샘플</p>
+                        <p>내용 샘플</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="comment-info-box mt-4 d-flex">
+                    <div class="info-box d-flex flex-column">
+                        <img src="" alt="" class="comment-info-img rounded-circle border">
+                        <span class="info-name">아이디</span>
+                    </div>
+                    <div class="ms-4 comment-written-content">
+                        <p>내용 샘플</p>
+                        <p>내용 샘플</p>
+                        <p>내용 샘플</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 여기까지 복붙-->
     </div>
 </body>
 </html>
