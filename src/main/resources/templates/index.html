@@ -11,7 +11,7 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet" />
-<link href="/resources/static/css/style.css" rel="stylesheet">
+<link href="/css/style.css" rel="stylesheet">
 <script>
     function updateBoard(){}
     function deleteBoard(){}
@@ -19,7 +19,7 @@
         // textarea 태그의 내용 가져오기
         let comment = document.getElementById('comment-content').value;
         // 게시글 아이디 가져오기
-        let postId = document.getElementById('postIdInput').value;
+        let postId = null;
 
         // API 요청을 위한 데이터 준비
         let data = {
@@ -28,7 +28,7 @@
         };
 
         // API 엔드포인트 설정
-        let url = '/challenges/'+{userId}+'/replys';
+        let url = '/moc/challenges/'+postId+'/replys';
 
         // API 요청 보내기
         fetch(url, {
