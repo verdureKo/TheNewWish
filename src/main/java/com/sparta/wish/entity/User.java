@@ -14,8 +14,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //기본키 전략
     private Long id;
+
+    @Column(nullable = false, unique = true)
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
     private String introduction; //프로필 소개글
     private String image; // 사진 URL
 
