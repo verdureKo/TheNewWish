@@ -2,7 +2,7 @@ package com.sparta.wish.controller;
 
 import com.sparta.wish.dto.BoardRequestDto;
 import com.sparta.wish.dto.CommentRequestDto;
-import com.sparta.wish.dto.UserRequestDto;
+import com.sparta.wish.dto.SignupRequestDto;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -32,13 +32,13 @@ public class MockController {
 
     //회원 가입 요청 이상 무
     @PostMapping("/users/new-user")
-    public String creataeUser(UserRequestDto requestDto){
+    public String creataeUser(SignupRequestDto requestDto){
         return requestDto.toString();
     }
 
     //회원 수정 요청 이상 무
     @PutMapping("/users/{userId}")
-    public String updateUser(UserRequestDto requestDto, @PathVariable Long userId){
+    public String updateUser(SignupRequestDto requestDto, @PathVariable Long userId){
         return requestDto.toString()+"\nuserId : "+userId;
     }
 
