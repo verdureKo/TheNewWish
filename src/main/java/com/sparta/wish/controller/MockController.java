@@ -22,9 +22,6 @@ public class MockController {
     }
 
 
-
-
-
     //게시글 등록 요청 이상 무
     @PostMapping("/new-challenge")
     public String newChallenge(BoardRequestDto requestDto){
@@ -45,5 +42,9 @@ public class MockController {
         return requestDto.toString()+"\nuserId : "+userId;
     }
 
-
+    //게시글 삭제 요청 이상 무
+    @DeleteMapping("/challenges/{userId}/{postId}")
+    public String deleteBoard(@PathVariable Long postId, @PathVariable Long userId){
+        return "\nuserId : "+userId+"\npostId"+postId;
+    }
 }

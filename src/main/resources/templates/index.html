@@ -19,7 +19,27 @@
     function updatePage(){
         window.location.href = "/challenges/"+postId;
     }
-    // function deleteBoard(){}
+    function deleteBoard() {
+        const confirmDelete = confirm('게시글을을 삭제하시겠습니까?');
+
+        if (confirmDelete) {
+            let url = '/moc/challenges/'+userId+'/'+postId;
+            fetch(url, {
+                method: 'DELETE'
+            })
+                .then(function(response) {
+                    if (response.ok) {
+                        console.log('게시글이 성공적으로 삭제되었습니다.');
+                    } else {
+                        console.log('게시글 삭제에 실패했습니다.');
+                    }
+                })
+                .catch(function(error) {
+                    console.log('게시글 삭제 중 오류가 발생했습니다.', error);
+                });
+        }
+    }
+
     function createComments() {
         // textarea 태그의 내용 가져오기
         let content = document.getElementById('comment-content-'+postId).value;
