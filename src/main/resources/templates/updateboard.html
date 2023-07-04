@@ -13,7 +13,43 @@
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet" />
     <link href="/css/style.css" rel="stylesheet">
 <script>
-    function updateBoard(){}
+    function updateBoard() {
+        let title = document.getElementById('title').value;
+        let content = document.getElementById('content').value;
+        let timer = document.getElementById('timer').value;
+        let userId = 1;
+        let postId = 1;
+
+        let updatedData = {
+            title: title,
+            content: content,
+            timer: timer,
+        };
+        let url = "/moc/challenges/" + userId+"/"+postId;
+
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedData)
+        })
+            .then(function (response) {
+                if (response.ok) {
+                    console.log('글이 성공적으로 수정되었습니다.');
+                } else {
+                    console.log('글 수정에 실패했습니다.');
+                }
+                return response; // 이 부분을 추가합니다.
+            })
+            .then(function (data) {
+                console.log(data);
+            })
+            .catch(function (error) {
+                console.log('글 수정 중 오류가 발생했습니다.', error);
+            });
+    }
+
 </script>
     <title>글 수정 화면</title>
 </head>
@@ -35,21 +71,19 @@
             </div>
         </div>
         <!-- 글 수정 PUT으로 어떻게 보내야 할까.. 제목, 내용, 타이머 전달  -->
-        <form action="/new-challenge" method="post">
         <div class="row mt-4">
             <div class="col-md-12">
-                <input type="text" name="title" class="form-control content"id="" placeholder="제목을 입력하세요" >
-                <textarea class="content form-control col-sm-5 rounded p-2 mt-2" name="content" rows="20" placeholder="내용을 입력하세요"></textarea>
+                <label for="title"></label><input type="text" name="title" class="form-control content" id="title" placeholder="제목을 입력하세요" >
+                <label for="content"></label><textarea class="content form-control col-sm-5 rounded p-2 mt-2" id="content" name="content" rows="20" placeholder="내용을 입력하세요"></textarea>
             </div>
         </div>
         <div class="row mt-2">
             <div class="col-md-12 d-flex justify-content-between">
                 <div class="align-items-center d-flex">
-                    <input type="text" name="timer" id="" placeholder="숫자를 입력해주세요">
+                    <label for="timer"></label><input type="text" id="timer" name="timer" placeholder="숫자를 입력해주세요">
                 </div>
                 <div class="align-items-center d-flex">
-                <input type="submit" class="btn btn-primary" value="작성완료"></button>
-            </form>
+                <button type="button" onclick="updateBoard()" class="btn btn-primary" value="">작성완료</button>
                 <a href="/challenges" class="btn btn-outline-primary ms-1">뒤로가기</a>
             </div>
             </div>
