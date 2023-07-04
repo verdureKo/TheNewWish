@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.*;
 public class MockController {
     //프론트 테스트용 임시 컨트롤러 입니다
 
-    //createComment 함수가 이상하게...안되서 확인 불가!!!
+    //댓글 등록 요청 이상 무
     @PostMapping("/challenges/{userId}/replys/{postId}")
     public String createComment(CommentRequestDto requestDto, @PathVariable Long postId, @PathVariable Long userId){
         return requestDto.toString() + "\n postId : "+postId+"\n userId : "+userId;
     }
-    //게시글 수정 요청 404 에러 발생..!!
+    //게시글 수정 요청 이상 무
     @PutMapping("/challenges/{userId}/{postId}")
     public String updateBoard(@PathVariable Long userId, @PathVariable Long postId, BoardRequestDto requestDto){
         return requestDto.toString()+"\nuserId : " +userId+"\npostId : "+postId;
