@@ -12,9 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
+
 
 @SpringBootTest
 public class JpaSaveTest {
@@ -30,34 +29,34 @@ public class JpaSaveTest {
         this.replyRepository = replyRepository;
     }
 
+    // 저장 테스트 할 때 사용하세요.
     @Test
     @Transactional
     @Rollback(value = false)
     void save1() {
-        User user1 = new User("se1232", "13213", "좋습니다.", "url:httfdjfd");
+        // 유저 저장
+        User user1 = new User("유저이름1", "1", "본인 소개1", "이미지 URL1");
+        User user2 = new User("유저이름2", "2", "본인 소개2", "이미지 URL2");
         userRepository.save(user1);
+        userRepository.save(user2);
 
-        Reply reply = new Reply("좋은 도전입니다.응원합니다.");
-        replyRepository.save(reply);
-        reply.setUser(user1);    //1번 유저가 게시글에 댓글을 단다. 1
-
-        List<Reply> replyList = new ArrayList<>();
-        replyList.add(reply);
-
-
+        // 게시글 저장
         Board board1 = new Board(user1,"오늘의 도전1", "운동 열심히 하기1",12,1);
-//        Board board2 = new Board("오늘의 도전2", "운동 열심히 하기2", 10, 2);
-        board1.setUser(user1);
-//        board2.setUser(user1);
+        Board board2 = new Board(user2,"오늘의 도전2", "운동 열심히 하기2", 10, 2);
 
         boardRepository.save(board1); //1번 유저가 1번 게시글 작성
-//        boardRepository.save(board2); //1번 유저가 2번 게시글 작성
+        boardRepository.save(board2); //1번 유저가 2번 게시글 작성
 
+        // 댓글 저장
+        Reply reply1 = new Reply(user1, board1,"좋은 도전입니다.응원합니다.");
+        Reply reply2 = new Reply(user1, board2, "도전 꼭 성공하시기를.. ");
 
-//        Reply reply = new Reply("도전 꼭 성공하시기를.. ");
-//        replyRepository.save(reply);
+        replyRepository.save(reply1);
+        replyRepository.save(reply2);
     }
 
+
+    // 찾는 방법 테스트 할 때 사용하세요.
     @Test
     @Transactional
     void find1() {
