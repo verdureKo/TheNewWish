@@ -3,6 +3,11 @@ package com.sparta.wish.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,18 +22,38 @@ public class Board extends Timestamped{
     @JoinColumn(name = "user_id")
     private User user; //FK
 
-    private String username; //있어야 되는지 의문임? 확인필요
-
     private String title;
 
     private String content;
 
+    // 서비스에서 숫자로 보내줌 예) 12
+    // 서비스에서 숫자를 시간으로 바꿔서
+    // 원래 시간에 더한다.
+    // 최종적으로 현재 시간에 더한다.
+    private Integer timer;
+
+    //챌린지 상태 - 성공 실패
+    private Integer state;
+
+    // 조회만 되고 저장은 안 됩니다.
+    @OneToMany(mappedBy = "board")
+    private List<Reply> replyList = new ArrayList<>();
+
     public Board() {
     }
 
-    public Board(String username, String title, String content) {
-        this.username = username;
+    public Board(String title, String content, Integer timer, Integer state) {
         this.title = title;
         this.content = content;
+        this.timer = timer;
+        this.state = state;
+    }
+
+    public Board(User user, String title, String content, Integer timer, Integer state) {
+        this.user = user;
+        this.title = title;
+        this.content = content;
+        this.timer = timer;
+        this.state = state;
     }
 }

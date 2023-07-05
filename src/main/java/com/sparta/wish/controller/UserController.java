@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Slf4j
@@ -21,11 +22,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user/signup")
+    // 회원가입 페이지로 이동
+    @GetMapping("/challenges/new-user")
     public String signupPage() {
-        return "signup";
+        return "signup"; // 회원가입하면 sign.html 에서 "/users/new-user 로 이동함
     }
 
+   //  회원가입 성공 - 홈으로 이동
+    // 회원가입 실패 - 그대로 (@valid 사용)
     @PostMapping("/users/new-user")
     public String signup(@ModelAttribute SignupRequestDto requestDto) {
         log.info("requestDto={}", requestDto);
@@ -34,16 +38,17 @@ public class UserController {
         return "redirect:/";
     }
 
-    @PostMapping("challenges/users/login")
-    public String login(LoginRequestDto requestDto, HttpServletResponse res) {
-        log.info("requestDto={}", requestDto);
-        try {
-            userService.login(requestDto, res);
+    //로그인 페이지 이동
+    //로그인 버튼 클릭시 "/challenges/users/login"으로 데이터 전달
+    @GetMapping("/challenges/login")
+    public String login(){
+        return "login";
+    }
 
-        } catch (Exception e) {
-            return "redirect:/users/login";
-        }
 
+    // 작동 안함
+    @RequestMapping("/challenges/users/login")
+    public String loginSuccessMain(){
         return "redirect:/";
     }
 }

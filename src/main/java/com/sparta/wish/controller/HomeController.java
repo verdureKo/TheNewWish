@@ -20,17 +20,6 @@ public class HomeController {
         return "newboard";
     }
 
-    //로그인 페이지 이동
-    @GetMapping("/challenges/login")
-    public String login(){
-        return "login";
-    }
-
-    //회원가입 페이지 이동
-    @GetMapping("/challenges/new-user")
-    public String signup(){
-        return "signup";
-    }
     //글 수정 페이지 이동
     @GetMapping("/challenges/{postId}")
     public String updateBoard(@PathVariable String postId){

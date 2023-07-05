@@ -12,14 +12,16 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class Timestamped {
+    // 글 작성 == 챌린지 시작 시간이다.
 
     @CreatedDate
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime start_challengeDate;
+    private LocalDateTime createAt;
 
+    // 글 수정 시간
     @LastModifiedDate
     @Column
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime end_challengeDate;
+    private LocalDateTime modifiedAt;
 }

@@ -24,7 +24,6 @@ public class User {
     private String introduction; //프로필 소개글
     private String image; // 사진 URL
 
-
     //JPA 사용시 기본 생성자 필요
     public User() {
     }
