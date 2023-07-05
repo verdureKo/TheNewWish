@@ -55,7 +55,6 @@ public class JpaSaveTest {
         replyRepository.save(reply2);
     }
 
-
     // 찾는 방법 테스트 할 때 사용하세요.
     @Test
     @Transactional

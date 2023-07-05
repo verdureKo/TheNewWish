@@ -8,9 +8,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class HomeController {
 
-    //메인 페이지 이동
+    //메인 페이지 이동1
+    @GetMapping("/")
+    public String home1(){
+        return "redirect:/challenges";
+    }
+
+    //메인 페이지 이동2
     @GetMapping("/challenges")
-    public String home(){
+    public String home2(){
         return "index";
     }
 

@@ -1,15 +1,14 @@
 package com.sparta.wish.controller;
 
-import com.sparta.wish.dto.LoginRequestDto;
 import com.sparta.wish.dto.SignupRequestDto;
+import com.sparta.wish.entity.Reply;
+import com.sparta.wish.service.ReplyService;
 import com.sparta.wish.service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 
 @Slf4j
@@ -28,12 +27,18 @@ public class UserController {
         return "signup"; // 회원가입하면 sign.html 에서 "/users/new-user 로 이동함
     }
 
-   //  회원가입 성공 - 홈으로 이동
+    // 회원가입 성공 - 홈으로 이동
     // 회원가입 실패 - 그대로 (@valid 사용)
     @PostMapping("/users/new-user")
-    public String signup(@ModelAttribute SignupRequestDto requestDto) {
+    public String signup(@ModelAttribute @Valid SignupRequestDto requestDto, BindingResult bindingResult) {
         log.info("requestDto={}", requestDto);
-        userService.signup(requestDto);
+        if(bindingResult.hasErrors()) {
+            return "signup";
+        }
+
+        if(userService.signup(requestDto) == null) {
+            return "signup";
+        }
 
         return "redirect:/";
     }
@@ -41,14 +46,15 @@ public class UserController {
     //로그인 페이지 이동
     //로그인 버튼 클릭시 "/challenges/users/login"으로 데이터 전달
     @GetMapping("/challenges/login")
-    public String login(){
+    public String loginPage(){
         return "login";
     }
 
 
     // 작동 안함
-    @RequestMapping("/challenges/users/login")
+    @PostMapping("/challenges/login/data")
     public String loginSuccessMain(){
-        return "redirect:/";
+        return "redirect:/challenges";
     }
+
 }

@@ -27,7 +27,7 @@ public class UserService {
     }
 
     // 회원가입
-    public void signup(SignupRequestDto requestDto) {
+    public User signup(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
         String introduction = requestDto.getIntroduction();
@@ -36,11 +36,13 @@ public class UserService {
         // 회원 중복 확인
         Optional<User> checkUsername = userRepository.findByUsername(username);
         if (checkUsername.isPresent()) {
-            throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
+//            throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
+            return null;
         }
 
         // 사용자 등록
         User user = new User(username, password, introduction, image);
         userRepository.save(user);
+        return user;
     }
 }
