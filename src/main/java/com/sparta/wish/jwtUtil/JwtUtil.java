@@ -44,6 +44,15 @@ public class JwtUtil {
         key = Keys.hmacShaKeyFor(bytes);
     }
 
+    // header 토큰을 가져오기
+    public String resolveToken(HttpServletRequest request) { // HttpServletRequset 안에는 우리가 가져와야 할 토큰이 헤더에 들어있음
+        String bearerToken = request.getHeader(AUTHORIZATION_HEADER); // 파라미터로 가져올 값을 넣어주면 됨
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) { // 코드가 있는지, BEARER로 시작하는지 확인
+            return bearerToken.substring(7); // 앞에 7글자를 지워줌 BEARER가 6글자이고 한칸이 띄어져있기때문
+        }
+        return null;
+    }
+
 
     // 토큰 생성
     public String createToken(String username) {
