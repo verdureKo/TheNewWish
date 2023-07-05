@@ -29,4 +29,10 @@ public class Reply {
     public Reply(String reply) {
         this.reply = reply;
     }
+
+    public Reply(User user, Board board, String reply) {
+        this.user = user;
+        this.board = board;
+        this.reply = reply;
+    }
 }
