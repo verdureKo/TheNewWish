@@ -8,12 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class HomeController {
 
-    //메인 페이지 이동
-    @GetMapping("/challenges")
-    public String home(){
-        return "index";
-    }
-
     //글 작성 페이지 이동
     @GetMapping("/new-challenge")
     public String newBoard(){
