@@ -58,4 +58,14 @@ public class Board extends Timestamped{
         this.content = requestDto.getContent();
         this.state = 0;
     }
+
+    public void update(BoardRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.timer = requestDto.getTimer();
+    }
+
+    public void updateOnlyState(int state) {
+        this.state = state;
+    }
 }
