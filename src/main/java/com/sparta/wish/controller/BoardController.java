@@ -6,11 +6,12 @@ import com.sparta.wish.entity.User;
 import com.sparta.wish.security.UserDetailsImpl;
 import com.sparta.wish.service.BoardService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class BoardController {
 
     // BEAN으로 등록된 BoardServie객체를 주입받는다.
@@ -26,10 +27,10 @@ public class BoardController {
         User user =  userDetails.getUser();
         boardService.newChallenge(user,requestDto);
 
-        return "redirect:/";
+        return "index";
     }
 
-    // 글 조회
+    // 모든 글 조회
     @GetMapping("/api/challenges")
     @ResponseBody
     public List<BoardResponseDto> getChallenges(){
@@ -37,6 +38,7 @@ public class BoardController {
     }
 
     // 글 수정
+    @ResponseBody
     @PutMapping("/challenges/{boardId}")
     public void updateChallenge(@PathVariable Long boardId, @RequestBody BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         // Authentication 의 Principal 에 저장된 UserDetailsImpl 을 가져옵니다.
@@ -45,6 +47,7 @@ public class BoardController {
     }
 
     // 글 삭제
+    @ResponseBody
     @DeleteMapping("/challenges/{boardId}")
     public void deleteChallenge(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         // Authentication 의 Principal 에 저장된 UserDetailsImpl 을 가져옵니다.
@@ -53,10 +56,18 @@ public class BoardController {
     }
 
     // 성공, 실패 버튼 구현
+    @ResponseBody
     @PutMapping("challenges/board/states")
     public void updateState(Long id, int state, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         // Authentication 의 Principal 에 저장된 UserDetailsImpl 을 가져옵니다.
         User user =  userDetails.getUser();
         boardService.updateState(id, state, user);
+    }
+
+    // 게시글 수정시 필요한 게시글 조회
+    @ResponseBody
+    @GetMapping("/api/challenges/{boardId}")
+    public BoardResponseDto findChallengeById(@PathVariable Long boardId) {
+        return boardService.findChallengeById(boardId);
     }
 }

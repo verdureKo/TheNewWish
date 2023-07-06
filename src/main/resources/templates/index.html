@@ -110,7 +110,7 @@
                         </div>
                         <div class="align-items-center d-flex">
                             <button onclick="updatePage(this.id)" class="btn btn-primary" id="update-btn-${boardId}" value="">글 수정</button>
-                            <button onclick="deleteBoard(this.id)" class="btn btn-primary" id="delete-btn-${boardId}">글 삭제</button>
+                            <button onclick="deleteBoard(this.id)" class="btn btn-primary d-block" id="delete-btn-${boardId}" value="글 삭제">글 삭제</button>
                         </div>
                     </div>
                 </div>
@@ -138,15 +138,17 @@
                     let replyContent = data[i].replyList[j].content;
 
                     let temp_html2 = `<div class="col-md-12">
-                        <div class="comment-info-box mt-4 d-flex">
-                            <div class="info-box d-flex flex-column">
-                                <img src="${replyUserImage}" alt="" class="comment-info-img rounded-circle border">
-                                <span class="info-name">${replyUserName}</span>
+                        <div class="comment-info-box mt-4 d-flex justify-content-between">
+                            <div class="d-flex ">
+                                <div class="info-box d-flex flex-column">
+                                    <img src="${replyUserImage}" alt="" class="comment-info-img rounded-circle border">
+                                    <span class="info-name">${replyUserName}</span>
+                                </div>
+                                <div class="ms-4 comment-written-content">
+                                    ${replyContent}
+                                </div>
                             </div>
-                            <div class="ms-4 comment-written-content">
-                                ${replyContent}
-                            </div>
-                            <button onclick="deleteComments(this.id)" class="btn btn-primary" id="comment-${replyId}"></button>
+                            <button onclick="deleteComments(this.id)" class="btn btn-danger" style="width:80px; height:40px;"id="comment-${replyId}">삭제</button>
                         </div>
                     </div>`;
                     comment_html += temp_html2;
@@ -230,19 +232,25 @@
 
     function updatePage(postId){
         let extracted = postId.substring(postId.indexOf("-") + 5);
-        window.location.href = "/challenges/"+extracted;
+        let boardUserName = document.getElementById('userName-'+extracted).textContent;
+
+        if(loggedUesrname === boardUserName){
+            window.location.href = "/challenges/"+extracted;
+        }else {
+            alert("작성한 게시글만 수정할 수 있습니다.")
+        }
     }
     function deleteBoard(postId) {
 
         let extracted = postId.substring(postId.indexOf("-") + 5);
-        console.log(extracted +" : 변환된 Id")
+        let boardUserName = document.getElementById('userName-'+extracted).textContent;
 
-
-        let boardUsername = document.getElementById('userName-'+extracted).textContent;
-
-        console.log(boardUsername)
+        console.log(boardUserName)
         console.log(loggedUesrname)
-        if(loggedUesrname !== boardUsername){
+        if(!loggedUesrname){
+            alert('로그인을 해주세요')
+        }
+        if(loggedUesrname !== boardUserName){
             alert('작성자만 삭제 가능합니다.');
         }else{
             const confirmDelete = confirm('게시글을을 삭제하시겠습니까?');
