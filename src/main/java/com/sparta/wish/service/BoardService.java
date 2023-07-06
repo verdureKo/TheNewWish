@@ -100,4 +100,11 @@ public class BoardService {
                 new IllegalArgumentException("선택한 보드는 존재하지 않습니다.")
         );
     }
+
+    public BoardResponseDto findChallengeById(Long id) {
+        Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("선택한 보드는 존재하지 않습니다."));
+        List<Reply> replyListByBoardId = replyRepository.findAllByBoard_id(board.getId());
+
+        return new BoardResponseDto(board, replyListByBoardId);
+    }
 }

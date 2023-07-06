@@ -14,17 +14,45 @@
     <link href="/css/style.css" rel="stylesheet">
     <title>회원가입 화면</title>
 </head>
+<script>
+    window.onload = function() {
+        var loginBox = document.getElementById("is-login-box");
+        var notLoginBox = document.getElementById("not-login-box");
+
+        // "Authorization" 쿠키가 존재하는 경우 로그아웃 버튼을 표시
+        if (checkAuthorizationCookie()) {
+            loginBox.style.display = "block";
+            notLoginBox.style.display = "none";
+
+        }
+    }
+    function checkAuthorizationCookie() {
+        var cookies = document.cookie.split(";");
+
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+
+            // "Authorization" 쿠키가 존재하는 경우 true 반환
+            if (cookie.startsWith("Authorization")) {
+                return true;
+            }
+        }
+
+        // "Authorization" 쿠키가 존재하지 않는 경우 false 반환
+        return false;
+    }
+</script>
 <body>
     <header class="d-flex justify-content-between align-items-center mx-5 mx-auto border border-bottom-1">
         <h1 class="h1"><a href="/challenges">이용해조</a></h1>
         <div>
-            <div class="is-login-box" id="is-login-box" style="display: none;">
-                <a href="/new-challenge" class="btn btn-primary" >글 작성</a>
+            <div class="is-login-box d-none" id="is-login-box">
+                <a href="/new-challenge" class="btn btn-primary" >글 작성(임시)</a>
                 <button onclick="logout()" class="btn btn-outline-primary" >로그아웃</button>
             </div>
             <div class="not-login-box" id="not-login-box">
-                <a href="/challenges/login" class="btn btn-primary">로그인</a>
-                <a href="/challenges/new-user" class="btn btn-outline-primary">회원가입</a>
+                <a href="/users/login" class="btn btn-primary">로그인</a>
+                <a href="/users/new-user" class="btn btn-outline-primary">회원가입</a>
             </div>
         </div>
     </header>
@@ -46,7 +74,7 @@
           </div>
             <div class="form-group mb-3">
                 <label for="img">이미지 URL:</label>
-                <input type="text" class="form-control" id="img" name="image">
+                <input type="text" class="form-control" id="img" name="image" value="https://cdn.vectorstock.com/i/preview-1x/32/12/default-avatar-profile-icon-vector-39013212.jpg">
             </div>
           <button type="submit" class="btn btn-primary">가입하기</button>
           <a href="/challenges" class="btn btn-outline-primary">메인으로</a>
