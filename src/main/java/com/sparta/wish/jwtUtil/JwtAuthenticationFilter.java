@@ -21,7 +21,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-        setFilterProcessesUrl("/users/login/info");
+        setFilterProcessesUrl("/api/users/login");
         //상속받으면 사용할 수 있는 메소드 : 로그인 페이지를 직접 설정함
 
     }
