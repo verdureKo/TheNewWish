@@ -81,6 +81,7 @@
                 let userName = data[i].user.username;
                 let userImage = data[i].user.image;
                 let state = data[i].state;
+                let replyCount = data[i].replyList.length;
                 // 게시글 템플릿 생성
                 let temp_html = `<div class="row">
                     <div class="col-md-12 board">
@@ -118,12 +119,12 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="comment-box">
-                            <h3 class="d-inline">댓글</h3>
-                            <h3 id="comment-count-${boardId}" class="d-inline ms-2">0</h3>
+                            <h3 class="d-inline">댓글 : </h3>
+                            <h3 class="d-inline">${replyCount}</h3>
                         </div>
                         <div class="comment-board mt-3">
                             <textarea class="content form-control col-sm-5" id="comment-content-${boardId}" rows="5"></textarea>
-                            <button type="button" onclick="createComments()" class="btn btn-primary mt-2" value="">등록하기</button>
+                            <button type="button" onclick="createComments(this.id)" class="btn btn-primary mt-2" id="comment-${boardId}" value="">등록하기</button>
                         </div>
                     </div>
                     <div class="comment-base-box" id="comment-base-box-${boardId}"></div>
@@ -140,9 +141,9 @@
                     let temp_html2 = `<div class="col-md-12">
                         <div class="comment-info-box mt-4 d-flex justify-content-between">
                             <div class="d-flex ">
-                                <div class="info-box d-flex flex-column">
+                                <div class="info-box d-flex flex-column align-items-center">
                                     <img src="${replyUserImage}" alt="" class="comment-info-img rounded-circle border">
-                                    <span class="info-name">${replyUserName}</span>
+                                    <span class="info-name" id="comment-userName-${replyId}">${replyUserName}</span>
                                 </div>
                                 <div class="ms-4 comment-written-content">
                                     ${replyContent}
@@ -275,42 +276,55 @@
 
 
     }
-    function deleteComments(commentsId){
-        let extracted = commentsId.substring(commentsId.indexOf("-") + 1);
-        console.log(extracted +" : 변환된 Id")
 
-        let url = '/challenges/'+userId+'/replys/'+postId;
+        // 댓글 삭제
+        function deleteComments(commentsId) {
+            let extracted = commentsId.substring(commentsId.indexOf("-") + 1);
+            console.log(extracted + " : 변환된 Id");
 
-        // API 요청 보내기
-        fetch(url, {
-            method: 'DELETE',
-            // body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
+            let commentUserName = document.getElementById('comment-userName-'+extracted).textContent;
+
+            if(!loggedUesrname){
+                alert('로그인을 해주세요')
             }
-        })
-            .then(function(response) {
-                // 응답 처리
-                if (response.ok) {
-                    // 성공적인 응답 처리
-                    console.log('댓글이 성공적으로 삭제되었습니다.');
-                } else {
-                    // 오류 응답 처리
-                    console.log('댓글 삭제에 실패했습니다.');
+            if(loggedUesrname !== commentUserName){
+                alert('작성자만 삭제 가능합니다.');
+            }else{
+            // API 엔드포인트 설정
+            let url = '/challenges/reply/' + extracted
+            console.log(url)
+            // API 요청 보내기
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
                 }
             })
-            .catch(function(error) {
-                // 에러 처리
-                console.log('댓글 삭제 중 오류가 발생했습니다.', error);
-            });
+                .then(function(response) {
+                    // 응답 처리
+                    if (response.ok) {
+                        // 성공적인 응답 처리
+                        console.log('댓글이 성공적으로 삭제되었습니다.');
+                        window.location.href = "/challenges"
+                        // 삭제한 댓글을 화면에서 제거하는 로직을 작성해주세요.
+                    } else {
+                        // 오류 응답 처리
+                        console.log('댓글 삭제에 실패했습니다.');
+                    }
+                })
+                .catch(function(error) {
+                    // 에러 처리
+                    console.log('댓글 삭제 중 오류가 발생했습니다.', error);
+                });
+            }
+        }
 
-    }
     function createComments(commentsId) {
 
         let extracted = commentsId.substring(commentsId.indexOf("-") + 1);
         console.log(extracted +" : 변환된 Id")
         // textarea 태그의 내용 가져오기
-        let content = document.getElementById('comment-content-'+postId).value;
+        let content = document.getElementById('comment-content-'+extracted).value;
 
         // API 요청을 위한 데이터 준비
         let data = {
@@ -318,7 +332,7 @@
         };
 
         // API 엔드포인트 설정
-        let url = '/challenges/'+userId+'/replys/'+postId;
+        let url = '/challenges/reply/'+extracted;
 
         // API 요청 보내기
         fetch(url, {
@@ -333,6 +347,7 @@
                 if (response.ok) {
                     // 성공적인 응답 처리
                     console.log('댓글이 성공적으로 작성되었습니다.');
+                    window.location.href="/challenges";
                 } else {
                     // 오류 응답 처리
                     console.log('댓글 작성에 실패했습니다.');
