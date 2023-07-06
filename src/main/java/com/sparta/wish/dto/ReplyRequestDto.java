@@ -8,5 +8,5 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ReplyRequestDto {
-    String reply;
+    private String content;
 }

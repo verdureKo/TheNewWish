@@ -73,6 +73,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         log.info("로그인 성공, 토큰 생성");
         String token = jwtUtil.createToken(username); // 토근 생성
         jwtUtil.addJwtToCookie(token, response); // 쿠키에 토근 넣기
+        response.sendRedirect(request.getContextPath() + "/challenges"); // Redirect to "/challenges"
     }
 
     // 로그인 실패했을 때 실행

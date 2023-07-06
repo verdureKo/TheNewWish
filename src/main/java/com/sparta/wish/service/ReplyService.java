@@ -10,14 +10,12 @@ import com.sparta.wish.jwtUtil.JwtUtil;
 import com.sparta.wish.repository.BoardRepository;
 import com.sparta.wish.repository.ReplyRepository;
 import com.sparta.wish.repository.UserRepository;
-import io.jsonwebtoken.Claims;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -29,29 +27,13 @@ public class ReplyService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
-//    //Reply 전체 조회 (GPT 작성)
-//    public List<ReplyResponseDto> findAll() {
-//        List<Reply> replies = replyRepository.findAll();
-//        return replies.stream()
-//                .map(ReplyResponseDto::new)
-//                .collect(Collectors.toList());
-//    }
-
-
-    //Reply 전체 조회
+    //Reply 전체 조회 (GPT 작성)
     public List<ReplyResponseDto> findAll() {
         List<Reply> replies = replyRepository.findAll();
-        List<ReplyResponseDto> responseDtoList = new ArrayList<>();
-
-        for (int i = 0; i < replies.size(); i++) {
-            Reply reply1 = replies.get(i);
-
-            responseDtoList.add(new ReplyResponseDto(reply1.getReply()));
-        }
-
-        return responseDtoList;
+        return replies.stream()
+                .map(ReplyResponseDto::new)
+                .collect(Collectors.toList());
     }
-
 
     // Reply 작성
     @Transactional
@@ -66,21 +48,21 @@ public class ReplyService {
         return new ReplyResponseDto(reply);
     }
 
-//    // Reply 수정
-//    @Transactional
-//    public ReplyResponseDto updateReply(Long replyId, ReplyRequestDto replyRequestDto, User user) {
-//
-//        Reply reply = replyRepository.findById(replyId).orElseThrow(
-//                () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다.")
-//        );
-//
-//        if (reply.getUser().getUsername().equals(user.getUsername())) {
-//            reply.update(replyRequestDto);
-//            return new ReplyResponseDto(reply);
-//        } else {
-//            throw new IllegalArgumentException("작성자만 수정 가능합니다.");
-//        }
-//    }
+    // Reply 수정
+    @Transactional
+    public ReplyResponseDto updateReply(Long replyId, ReplyRequestDto replyRequestDto, User user) {
+
+        Reply reply = replyRepository.findById(replyId).orElseThrow(
+                () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다.")
+        );
+
+        if (reply.getUser().getUsername().equals(user.getUsername())) {
+            reply.update(replyRequestDto);
+            return new ReplyResponseDto(reply);
+        } else {
+            throw new IllegalArgumentException("작성자만 수정 가능합니다.");
+        }
+    }
 
     // Reply 삭제
     @Transactional

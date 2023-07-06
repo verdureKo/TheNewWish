@@ -28,7 +28,7 @@ public class JpaSaveTest {
         this.replyRepository = replyRepository;
     }
 
-
+    // 저장 테스트 할 때 사용하세요.
     @Test
     @Transactional
     @Rollback(value = false)
@@ -40,8 +40,8 @@ public class JpaSaveTest {
         userRepository.save(user2);
 
         // 게시글 저장
-        Board board1 = new Board(user1,"오늘의 도전1", "운동 열심히 하기1",12,1);
-        Board board2 = new Board(user2,"오늘의 도전2", "운동 열심히 하기2", 10, 2);
+        Board board1 = new Board(user1,"오늘의 도전1", "운동 열심히 하기1",12,0);
+        Board board2 = new Board(user2,"오늘의 도전2", "운동 열심히 하기2", 10, 0);
 
         boardRepository.save(board1); //1번 유저가 1번 게시글 작성
         boardRepository.save(board2); //1번 유저가 2번 게시글 작성
@@ -49,17 +49,26 @@ public class JpaSaveTest {
         // 댓글 저장
         Reply reply1 = new Reply(user1, board1,"좋은 도전입니다.응원합니다.");
         Reply reply2 = new Reply(user1, board2, "도전 꼭 성공하시기를.. ");
+        Reply reply3 = new Reply(user1, board2, "화이팅 ");
+        Reply reply4 = new Reply(user1, board1, "!!!");
+        Reply reply5 = new Reply(user1, board1, "~~~");
+
 
         replyRepository.save(reply1);
         replyRepository.save(reply2);
+        replyRepository.save(reply3);
+        replyRepository.save(reply4);
+        replyRepository.save(reply5);
     }
 
-//    @Test
-//    @Transactional
-//    void find1() {
-//        Optional<Board> findBoard = boardRepository.findById(1L);
-//        Board board = findBoard.get();
-//        User user = board.getUser();
-//        System.out.println(user);
-//    }
+
+    // 찾는 방법 테스트 할 때 사용하세요.
+    @Test
+    @Transactional
+    void find1() {
+        Optional<Board> findBoard = boardRepository.findById(1L);
+        Board board = findBoard.get();
+        User user = board.getUser();
+        System.out.println(user);
+    }
 }

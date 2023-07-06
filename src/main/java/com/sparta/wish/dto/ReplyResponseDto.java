@@ -5,22 +5,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class ReplyResponseDto {
     private Long id;
-    private String reply;
+    private String content;
     private String username;
 
     public ReplyResponseDto(Reply reply) {
         this.id = reply.getId();
-        this.reply = reply.getReply();
+        this.content = reply.getContent();
         this.username = reply.getUser().getUsername();
     }
 
 
     public ReplyResponseDto(String reply) {
-        this.reply = reply;
+        this.content = reply;
     }
 }
