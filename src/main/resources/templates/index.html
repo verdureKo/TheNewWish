@@ -132,9 +132,10 @@
                 // 댓글 템플릿 생성
                 let comment_html = '';
                 for (let j = 0; j < data[i].replyList.length; j++) {
+                    let replyId = data[i].replyList[j].id;
                     let replyUserName = data[i].replyList[j].user.username;
                     let replyUserImage = data[i].replyList[j].user.image;
-                    let replyContent = data[i].replyList[j].reply;
+                    let replyContent = data[i].replyList[j].content;
 
                     let temp_html2 = `<div class="col-md-12">
                         <div class="comment-info-box mt-4 d-flex">
@@ -145,6 +146,7 @@
                             <div class="ms-4 comment-written-content">
                                 ${replyContent}
                             </div>
+                            <button onclick="deleteComments(this.id)" class="btn btn-primary" id="comment-${replyId}"></button>
                         </div>
                     </div>`;
                     comment_html += temp_html2;
@@ -231,8 +233,13 @@
         window.location.href = "/challenges/"+extracted;
     }
     function deleteBoard(postId) {
+
         let extracted = postId.substring(postId.indexOf("-") + 5);
-        let boardUsername = document.getElementById('userName-'+extracted).value;
+        console.log(extracted +" : 변환된 Id")
+
+
+        let boardUsername = document.getElementById('userName-'+extracted).textContent;
+
         console.log(boardUsername)
         console.log(loggedUesrname)
         if(loggedUesrname !== boardUsername){
@@ -260,8 +267,40 @@
 
 
     }
+    function deleteComments(commentsId){
+        let extracted = commentsId.substring(commentsId.indexOf("-") + 1);
+        console.log(extracted +" : 변환된 Id")
 
-    function createComments() {
+        let url = '/challenges/'+userId+'/replys/'+postId;
+
+        // API 요청 보내기
+        fetch(url, {
+            method: 'DELETE',
+            // body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function(response) {
+                // 응답 처리
+                if (response.ok) {
+                    // 성공적인 응답 처리
+                    console.log('댓글이 성공적으로 삭제되었습니다.');
+                } else {
+                    // 오류 응답 처리
+                    console.log('댓글 삭제에 실패했습니다.');
+                }
+            })
+            .catch(function(error) {
+                // 에러 처리
+                console.log('댓글 삭제 중 오류가 발생했습니다.', error);
+            });
+
+    }
+    function createComments(commentsId) {
+
+        let extracted = commentsId.substring(commentsId.indexOf("-") + 1);
+        console.log(extracted +" : 변환된 Id")
         // textarea 태그의 내용 가져오기
         let content = document.getElementById('comment-content-'+postId).value;
 
