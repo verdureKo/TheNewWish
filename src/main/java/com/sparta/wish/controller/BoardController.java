@@ -65,6 +65,7 @@ public class BoardController {
     }
 
     // 게시글 수정시 필요한 게시글 조회
+    @ResponseBody
     @GetMapping("/api/challenges/{boardId}")
     public BoardResponseDto findChallengeById(@PathVariable Long boardId) {
         return boardService.findChallengeById(boardId);
