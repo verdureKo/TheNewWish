@@ -3,7 +3,6 @@ package com.sparta.wish.controller;
 import com.sparta.wish.dto.User.SignupRequestDto;
 import com.sparta.wish.dto.User.UserProfileRequestDto;
 import com.sparta.wish.dto.User.UserProfileResponseDto;
-import com.sparta.wish.entity.User;
 import com.sparta.wish.security.UserDetailsImpl;
 import com.sparta.wish.service.UserService;
 import jakarta.validation.Valid;
