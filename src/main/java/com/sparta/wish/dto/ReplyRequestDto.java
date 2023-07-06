@@ -7,6 +7,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CommentRequestDto {
-    String content;
+public class ReplyRequestDto {
+    private String content;
 }

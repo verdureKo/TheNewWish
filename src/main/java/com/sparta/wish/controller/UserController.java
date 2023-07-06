@@ -1,6 +1,8 @@
 package com.sparta.wish.controller;
 
 import com.sparta.wish.dto.User.SignupRequestDto;
+import com.sparta.wish.dto.User.UserProfileResponseDto;
+import com.sparta.wish.entity.User;
 import com.sparta.wish.security.UserDetailsImpl;
 import com.sparta.wish.service.UserService;
 import jakarta.validation.Valid;
@@ -28,8 +30,11 @@ public class UserController {
         return "signup"; // 회원가입하면 sign.html 에서 "/users/new-user 로 이동함
     }
 
+    // 회원정보 검증 - 성공 후
     // 회원가입 성공 - 홈으로 이동
-    // 회원가입 실패 - 그대로 (@valid 사용)
+
+    // 회원검증 실패 - 현재 화면
+    // 회원가입 실패 - 현재 화면
     @PostMapping("/new-user")
     public String signup(@ModelAttribute @Valid SignupRequestDto requestDto, BindingResult bindingResult) {
         log.info("requestDto={}", requestDto);
@@ -52,13 +57,21 @@ public class UserController {
     }
 
 
-    //회원 정보수정 중
-    // 1. 포스트맨에서 테스트
-    // 2. 그 다음 바꿔서 프론트랑 연동 예정
-//    @PostMapping
-//    public String update(@AuthenticationPrincipal UserDetailsImpl userDetails, SignupRequestDto requestDto) {
-//        userService.update(userDetails, requestDto);
-//        return
-//    }
+    //회원 정보 조회
+    @GetMapping("/update")
+    public UserProfileResponseDto profileFind(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        UserProfileResponseDto userProfileResponseDto = userService.profileFind(userDetails);
+        return userProfileResponseDto;
+    }
 
+    //회원 정보 수정
+    // post로
+    // 데이터 수정 정보를 받음
+    // json 으로 수정된 데이터를 보내줌.
+    @ResponseBody
+    @PostMapping("/update")
+    public UserProfileResponseDto update(@AuthenticationPrincipal UserDetailsImpl userDetails, @ModelAttribute @Valid SignupRequestDto requestDto) {
+        UserProfileResponseDto userProfileResponseDto = userService.update(userDetails, requestDto);
+        return userProfileResponseDto;
+    }
 }

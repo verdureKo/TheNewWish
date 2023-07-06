@@ -1,12 +1,16 @@
 package com.sparta.wish.service;
 
 import com.sparta.wish.dto.User.SignupRequestDto;
+import com.sparta.wish.dto.User.UserProfileResponseDto;
 import com.sparta.wish.entity.User;
 import com.sparta.wish.jwtUtil.JwtUtil;
 import com.sparta.wish.repository.UserRepository;
+import com.sparta.wish.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.Optional;
 
@@ -43,5 +47,26 @@ public class UserService {
         userRepository.save(user);
         return user;
     }
+
+    //회원 정보 조회
+    public UserProfileResponseDto profileFind(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        Optional<User> findUsername = userRepository.findByUsername(userDetails.getUsername());
+        User user = findUsername.get();
+        UserProfileResponseDto userProfileResponseDto = new UserProfileResponseDto(user);
+        return userProfileResponseDto;
+    }
+
+    //회원 정보 수정
+    public UserProfileResponseDto update(@AuthenticationPrincipal UserDetailsImpl userDetails, @ModelAttribute SignupRequestDto requestDto){
+        User user = userDetails.getUser();
+        user.setUsername(requestDto.getUsername());
+        user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+        user.setIntroduction(requestDto.getIntroduction());
+        user.setImage(requestDto.getImage());
+        userRepository.save(user);
+
+        UserProfileResponseDto userProfileResponseDto = new UserProfileResponseDto(user);
+        return userProfileResponseDto;
+
+    }
 }
-// hi
