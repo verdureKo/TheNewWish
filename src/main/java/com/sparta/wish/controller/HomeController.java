@@ -27,8 +27,8 @@ public class HomeController {
         return "updateboard";
     }
     //유저 수정 페이지 이동
-    @GetMapping("/users/{userId}")
-    public String updateUser(@PathVariable String userId){
+    @GetMapping("/users")
+    public String updateUser(){
         return "mypage";
     }
     //로그아웃시 홈으로 이동

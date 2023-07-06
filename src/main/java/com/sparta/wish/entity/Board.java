@@ -36,7 +36,7 @@ public class Board extends Timestamped{
     private Integer state;
 
     // 조회만 되고 저장은 안 됩니다.
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JsonBackReference
     private List<Reply> replyList = new ArrayList<>();
 

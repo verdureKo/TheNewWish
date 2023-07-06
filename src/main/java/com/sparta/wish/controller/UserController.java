@@ -1,6 +1,7 @@
 package com.sparta.wish.controller;
 
 import com.sparta.wish.dto.User.SignupRequestDto;
+import com.sparta.wish.dto.User.UserProfileRequestDto;
 import com.sparta.wish.dto.User.UserProfileResponseDto;
 import com.sparta.wish.entity.User;
 import com.sparta.wish.security.UserDetailsImpl;
@@ -38,11 +39,11 @@ public class UserController {
     @PostMapping("/new-user")
     public String signup(@ModelAttribute @Valid SignupRequestDto requestDto, BindingResult bindingResult) {
         log.info("requestDto={}", requestDto);
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "signup";
         }
 
-        if(userService.signup(requestDto) == null) {
+        if (userService.signup(requestDto) == null) {
             return "signup";
         }
 
@@ -52,12 +53,13 @@ public class UserController {
     //로그인 페이지 이동
     //로그인 버튼 클릭시 "/users/login/info"으로 데이터 전달
     @GetMapping("/login")
-    public String loginPage(){
+    public String loginPage() {
         return "login";
     }
 
 
     //회원 정보 조회
+    @ResponseBody
     @GetMapping("/update")
     public UserProfileResponseDto profileFind(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         UserProfileResponseDto userProfileResponseDto = userService.profileFind(userDetails);
@@ -68,10 +70,12 @@ public class UserController {
     // post로
     // 데이터 수정 정보를 받음
     // json 으로 수정된 데이터를 보내줌.
-    @ResponseBody
+
     @PostMapping("/update")
-    public UserProfileResponseDto update(@AuthenticationPrincipal UserDetailsImpl userDetails, @ModelAttribute @Valid SignupRequestDto requestDto) {
+    public void update(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody @Valid UserProfileRequestDto requestDto) {
+        log.info("requestDto={}", requestDto);
         UserProfileResponseDto userProfileResponseDto = userService.update(userDetails, requestDto);
-        return userProfileResponseDto;
+
     }
 }
+
