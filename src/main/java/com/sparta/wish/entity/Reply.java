@@ -1,8 +1,8 @@
 package com.sparta.wish.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sparta.wish.dto.ReplyRequestDto;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,21 +21,26 @@ public class Reply {
 
     @ManyToOne
     @JoinColumn(name = "board_id")
-    @JsonManagedReference
     private Board board;
 
-    private String reply;
+    private String content;
 
     public Reply() {
     }
 
-    public Reply(String reply) {
-        this.reply = reply;
+    public Reply(User user, ReplyRequestDto replyRequestDto, Board board) {
+        this.user = user;
+        this.reply = replyRequestDto.getReply();
+        this.board = board;
     }
 
-    public Reply(User user, Board board, String reply) {
+    public void update(ReplyRequestDto replyRequestDto) {
+        this.reply = replyRequestDto.getReply();
+    }
+
+    public Reply(User user, Board board, String content) {
         this.user = user;
         this.board = board;
-        this.reply = reply;
+        this.content = content;
     }
 }
