@@ -20,9 +20,4 @@ public class ReplyResponseDto {
         this.content = reply.getContent();
         this.username = reply.getUser().getUsername();
     }
-
-
-    public ReplyResponseDto(String reply) {
-        this.content = reply;
-    }
 }

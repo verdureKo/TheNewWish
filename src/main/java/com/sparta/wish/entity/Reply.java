@@ -23,7 +23,7 @@ public class Reply {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    private String reply;
+    private String content;
 
     public Reply() {
     }
@@ -38,9 +38,9 @@ public class Reply {
         this.reply = replyRequestDto.getReply();
     }
 
-    public Reply(User user, Board board, String reply) {
+    public Reply(User user, Board board, String content) {
         this.user = user;
         this.board = board;
-        this.reply = reply;
+        this.content = content;
     }
 }
