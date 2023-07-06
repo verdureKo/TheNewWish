@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,20 +12,99 @@
     crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet" />
     <link href="/css/style.css" rel="stylesheet">
-<script>
+<script th:inline="javascript">
+    let postID = /*[[${postId}]]*/ null;
+    console.log("게시판 아이디 : "+postID)
+
+    window.onload = function() {
+        var loginBox = document.getElementById("is-login-box");
+        var notLoginBox = document.getElementById("not-login-box");
+
+        // "Authorization" 쿠키가 존재하는 경우 로그아웃 버튼을 표시
+        if (checkAuthorizationCookie()) {
+            loginBox.style.display = "block";
+            notLoginBox.style.display = "none";
+
+        }
+        getUpdateData();
+    }
+    function checkAuthorizationCookie() {
+        var cookies = document.cookie.split(";");
+
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+
+            // "Authorization" 쿠키가 존재하는 경우 true 반환
+            if (cookie.startsWith("Authorization")) {
+                return true;
+            }
+        }
+
+        // "Authorization" 쿠키가 존재하지 않는 경우 false 반환
+        return false;
+    }
+    function getUpdateData(){
+        let url = "/api/challenges/"+postID;
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => response.json())
+
+            .then(function (data) {
+                let title = data.title
+                let content = data.content;
+                let userName = data.user.username;
+                console.log(data);
+let temp_html = `<div class="row">
+                    <div class="col-md-12 board">
+                        <div class="info-box">
+                               <span class="fw-bold">유저 아이디 : </span>
+
+                            <span class="info-name fw-bold">${userName}</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 글 수정 PUT으로 어떻게 보내야 할까.. 제목, 내용, 타이머 전달  -->
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <label for="title"></label><input type="text" name="title" class="form-control content" id="title" placeholder="제목을 입력하세요" value="${title}" >
+                        <label for="content"></label><textarea class="content form-control col-sm-5 rounded p-2 mt-2" id="content" name="content" rows="20" placeholder="내용을 입력하세요">${content}</textarea>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-12 d-flex justify-content-between">
+                        <div class="align-items-center d-flex">
+                            <label for="timer"></label><input type="text" id="timer" name="timer" value="24">
+                        </div>
+                        <div class="align-items-center d-flex">
+                        <button type="button" onclick="updateBoard()" class="btn btn-primary" value="">작성완료</button>
+                        <a href="/challenges" class="btn btn-outline-primary ms-1">뒤로가기</a>
+                    </div>
+                    </div>
+                </div>
+`;
+                $('.base-box').append(temp_html);
+            })
+            .catch(function (error) {
+                console.log('글 수정 중 오류가 발생했습니다.', error);
+            });
+    }
     function updateBoard() {
         let title = document.getElementById('title').value;
         let content = document.getElementById('content').value;
         let timer = document.getElementById('timer').value;
-        let userId = 1;
-        let postId = 1;
+        let postId = postID;
 
         let updatedData = {
             title: title,
             content: content,
             timer: timer,
         };
-        let url = "/challenges/" + userId+"/"+postId;
+        let url = "/challenges/"+postId;
 
         fetch(url, {
             method: 'PUT',
@@ -37,6 +116,7 @@
             .then(function (response) {
                 if (response.ok) {
                     console.log('글이 성공적으로 수정되었습니다.');
+                    window.location.href="/challenges"
                 } else {
                     console.log('글 수정에 실패했습니다.');
                 }
@@ -57,43 +137,18 @@
     <header class="d-flex justify-content-between align-items-center mx-5 mx-auto border border-bottom-1">
         <h1 class="h1"><a href="/challenges">이용해조</a></h1>
         <div>
-            <div class="is-login-box" id="is-login-box" style="display: none;">
-                <a href="/new-challenge" class="btn btn-primary" >글 작성</a>
+            <div class="is-login-box d-none" id="is-login-box">
+                <a href="/new-challenge" class="btn btn-primary" >글 작성(임시)</a>
                 <button onclick="logout()" class="btn btn-outline-primary" >로그아웃</button>
             </div>
             <div class="not-login-box" id="not-login-box">
-                <a href="/challenges/login" class="btn btn-primary">로그인</a>
-                <a href="/challenges/new-user" class="btn btn-outline-primary">회원가입</a>
+                <a href="/users/login" class="btn btn-primary">로그인</a>
+                <a href="/users/new-user" class="btn btn-outline-primary">회원가입</a>
             </div>
         </div>
     </header>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 board">
-                <div class="info-box">
-                    <img src="" alt="" class="info-img rounded-circle border">
-                    <span class="info-name">아이디</span>
-                </div>
-            </div>
-        </div>
-        <!-- 글 수정 PUT으로 어떻게 보내야 할까.. 제목, 내용, 타이머 전달  -->
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <label for="title"></label><input type="text" name="title" class="form-control content" id="title" placeholder="제목을 입력하세요" >
-                <label for="content"></label><textarea class="content form-control col-sm-5 rounded p-2 mt-2" id="content" name="content" rows="20" placeholder="내용을 입력하세요"></textarea>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-md-12 d-flex justify-content-between">
-                <div class="align-items-center d-flex">
-                    <label for="timer"></label><input type="text" id="timer" name="timer" placeholder="숫자를 입력해주세요">
-                </div>
-                <div class="align-items-center d-flex">
-                <button type="button" onclick="updateBoard()" class="btn btn-primary" value="">작성완료</button>
-                <a href="/challenges" class="btn btn-outline-primary ms-1">뒤로가기</a>
-            </div>
-            </div>
-        </div>
+    <div class="container base-box">
+
     </div>
 </body>
 </html>

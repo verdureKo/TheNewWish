@@ -2,6 +2,7 @@ package com.sparta.wish.controller;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -21,7 +22,8 @@ public class HomeController {
 
     //글 수정 페이지 이동
     @GetMapping("/challenges/{postId}")
-    public String updateBoard(@PathVariable String postId){
+    public String updateBoard(@PathVariable String postId, Model model){
+        model.addAttribute(postId, postId);
         return "updateboard";
     }
     //유저 수정 페이지 이동

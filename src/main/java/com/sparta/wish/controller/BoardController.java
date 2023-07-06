@@ -29,7 +29,7 @@ public class BoardController {
         return "redirect:/";
     }
 
-    // 글 조회
+    // 모든 글 조회
     @GetMapping("/api/challenges")
     @ResponseBody
     public List<BoardResponseDto> getChallenges(){
@@ -58,5 +58,11 @@ public class BoardController {
         // Authentication 의 Principal 에 저장된 UserDetailsImpl 을 가져옵니다.
         User user =  userDetails.getUser();
         boardService.updateState(id, state, user);
+    }
+
+    // 게시글 수정시 필요한 게시글 조회
+    @GetMapping("/api/challenges/{boardId}")
+    public BoardResponseDto findChallengeById(@PathVariable Long boardId) {
+        return boardService.findChallengeById(boardId);
     }
 }
