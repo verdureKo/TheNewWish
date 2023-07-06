@@ -14,19 +14,7 @@
     <link href="/css/style.css" rel="stylesheet">
     <title>글 작성 화면</title>
 </head>
-<script>
-    window.onload = function() {
-        let cookie = getCookie("Authorization")
-        console.log(cookie);
-    }
-    function getCookie(name) {
-        const value = "; " + document.cookie;
-        const parts = value.split("; " + name + "=");
-        if (parts.length === 2) {
-            return parts.pop().split(";").shift();
-        }
-    }
-</script>
+
 <body>
     <header class="d-flex justify-content-between align-items-center mx-5 mx-auto border border-bottom-1">
         <h1 class="h1"><a href="/challenges">이용해조</a></h1>
