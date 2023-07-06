@@ -30,12 +30,12 @@ public class Reply {
 
     public Reply(User user, ReplyRequestDto replyRequestDto, Board board) {
         this.user = user;
-        this.reply = replyRequestDto.getReply();
+        this.content = replyRequestDto.getContent();
         this.board = board;
     }
 
     public void update(ReplyRequestDto replyRequestDto) {
-        this.reply = replyRequestDto.getReply();
+        this.content = replyRequestDto.getContent();
     }
 
     public Reply(User user, Board board, String content) {
