@@ -64,7 +64,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
-                        .requestMatchers("/a","/**","/", "/challenges","/challenges/new-user","/users/new-user","challenges/login/**").permitAll() // 모든 사용자가 사용가능한 URL
+                        .requestMatchers("/a","/**","/", "/challenges","/challenges/new-user","/users/**").permitAll() // 모든 사용자가 사용가능한 URL
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리가 필요하다.
         );
         // "/" 메인 화면
@@ -79,7 +79,7 @@ public class WebSecurityConfig {
         // 로그인 페이지 "/challenges/login"
         http.formLogin((formLogin) ->
                 formLogin
-                        .loginPage("/challenges/login").permitAll()
+                        .loginPage("/users/login").permitAll()
         );
 
         // 필터 관리

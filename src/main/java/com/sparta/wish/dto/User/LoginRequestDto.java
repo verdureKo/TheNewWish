@@ -1,4 +1,4 @@
-package com.sparta.wish.dto;
+package com.sparta.wish.dto.User;
 
 import lombok.Getter;
 import lombok.Setter;

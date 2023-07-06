@@ -1,7 +1,5 @@
 package com.sparta.wish.jwtUtil;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.wish.dto.LoginRequestDto;
 import com.sparta.wish.security.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,7 +21,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-        setFilterProcessesUrl("/challenges/login/data");
+        setFilterProcessesUrl("/users/login/info");
         //상속받으면 사용할 수 있는 메소드 : 로그인 페이지를 직접 설정함
 
     }

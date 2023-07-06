@@ -28,9 +28,9 @@ public class BoardController {
         return "redirect:/";
     }
 
-    @GetMapping("/challenges")
-    @ResponseBody
-    public List<BoardResponseDto> getChallenges(){
-        return boardService.getChallenges();
-    }
+//    @GetMapping("/challenges")
+//    @ResponseBody
+//    public List<BoardResponseDto> getChallenges(){
+//        return boardService.getChallenges();
+//    }
 }
