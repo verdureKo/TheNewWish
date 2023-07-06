@@ -2,13 +2,10 @@ package com.sparta.wish.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sparta.wish.dto.BoardRequestDto;
-import com.sparta.wish.security.UserDetailsImpl;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.cglib.core.Local;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,5 +57,15 @@ public class Board extends Timestamped{
         this.timer = requestDto.getTimer();
         this.content = requestDto.getContent();
         this.state = 0;
+    }
+
+    public void update(BoardRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.timer = requestDto.getTimer();
+    }
+
+    public void updateOnlyState(int state) {
+        this.state = state;
     }
 }
