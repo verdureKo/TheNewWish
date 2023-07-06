@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <link href="/css/style.css" rel="stylesheet">
     <title>로그인 화면</title>
 </head>
@@ -44,34 +45,34 @@
     }
 </script>
 <body>
-    <header class="d-flex justify-content-between align-items-center mx-5 mx-auto border border-bottom-1">
-        <h1 class="h1"><a href="/challenges">이용해조</a></h1>
-        <div>
-            <div class="is-login-box d-none" id="is-login-box">
-                <a href="/new-challenge" class="btn btn-primary" >글 작성(임시)</a>
-                <button onclick="logout()" class="btn btn-outline-primary" >로그아웃</button>
-            </div>
-            <div class="not-login-box" id="not-login-box">
-                <a href="/users/login" class="btn btn-primary">로그인</a>
-                <a href="/users/new-user" class="btn btn-outline-primary">회원가입</a>
-            </div>
+    <header class="d-flex justify-content-between align-items-middle bg-light bg-gradient">
+        <div class="h1 fs-2 px-4 pt-2"><a href="/challenges">이용해조</a></div>
+        <div class="is-login-box p-2" id="is-login-box" style="display: none;">
+            <a href="/new-challenge" class="ms-4 fs-4"><i class="fa-solid fa-pen-to-square fa"></i></a>
+            <a href="/users"><i class="fa-solid fa-user-pen fa-lg ms-4"></i></a>
+            <div type="button" onclick="logout()" class="d-inline"><i class="fa-solid fa-person-walking-arrow-right fa-xl ms-4"></i></div>
+        </div>
+        <div class="not-login-box m-3" id="not-login-box">
+            <a href="/users/login"><i class="fa-solid fa-user-check fa-lg ms-4"></i></a>
+            <a href="/users/new-user"><i class="fa-solid fa-user-plus fa-lg ms-4"></i></a>
         </div>
     </header>
     <div class="container">
         <!-- 로그인 POST 아이디, 비밀번호 전달-->
         <form method="post" action="/api/users/login" class="input-form">
             <h2>로그인</h2>
-            <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">아이디 : </label>
-            <input type="text" class="form-control" id="exampleInputEmail1" name="username" aria-describedby="emailHelp">
+            <div class="mb-2">
+            <label for="exampleInputEmail1" class="form-label"></label>
+            <input type="text" class="form-control content_field" id="exampleInputEmail1" name="username" aria-describedby="emailHelp" placeholder="아이디를 입력해주세요">
             </div>
-            <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">비밀번호 : </label>
-            <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+            <div class="mb-5">
+            <label for="exampleInputPassword1" class="form-label"></label>
+            <input type="password" class="form-control content_field" id="exampleInputPassword1" name="password" placeholder="비밀번호를 입력해주세요">
             </div>
-            <button type="submit" class="btn btn-primary">로그인</button>
-            <a href="/challenges" class="btn btn-outline-primary">메인으로</a>
-
+            <div class="float-end">
+            <button type="submit" class="btn btn-warning">로그인</button>
+            <a href="/challenges" class="btn btn-outline-warning">메인으로</a>
+            </div>
         </form>
     </div>
 </body>
