@@ -17,8 +17,7 @@
         getUserData();
     }
     function getUserData(){
-        function getData(){
-            fetch('/api/challenges', {
+            fetch('/users/update', {
                 method: 'GET', // GET, POST, PUT 등 HTTP 메서드 선택
                 headers: {
                     'Content-Type': 'application/json', // 서버에서 요구하는 Content-Type으로 설정
@@ -30,31 +29,62 @@
                 .then(response => response.json()) // JSON 형태의 응답 데이터 파싱
                 .then(data => {
                     console.log(data);
+                    $('.container').empty()
+                    let username = data.username;
+                    let password = "*****";
+                    let introduction = data.introduction;
+                    let image = data.image;
+
+                    // 게시글 템플릿 생성
+                    let temp_html = `<h2 class="board">정보 수정</h2>
+          <div class="form-group mb-3">
+            <label for="username" class="d-block">사용자명:</label>
+              <span id="username" class="fw-bold" >${username}</span>
+          </div>
+          <div class="form-group mb-3">
+            <label for="checkpassword">현재 비밀번호:</label>
+            <input type="password" class="form-control" id="checkpassword" name="checkpassword" placeholder="현재 비밀번호를 입력해주세요.">
+          </div>
+          <div class="form-group mb-3">
+            <label for="updatepassword">수정 비밀번호:</label>
+            <input type="password" class="form-control" id="updatepassword" name="updatepassword" placeholder="수정할 비밀번호를 입력해주세요.">
+          </div>
+          <div class="form-group mb-3">
+            <label for="introduction">자기소개:</label>
+            <input type="text" class="form-control" id="introduction" name="introduction" value="${introduction}">
+          </div>
+            <div class="form-group mb-3">
+                <label for="image">이미지 URL:</label>
+                <input type="text" class="form-control" id="image" name="image" value="${image}">
+            </div>
+          <button onclick="updateUser(); window.location.href='/challenges'" class="btn btn-primary">수정완료</button>
+          <a href="/challenges" class="btn btn-outline-primary">메인으로</a>`
+                    $('.container').append(temp_html)
                 })
                 .catch(error => {
                     // 오류 처리 로직을 작성합니다.
                     console.error(error);
                 });
-        }
     }
     function updateUser() {
 
         let username = document.getElementById('username').value;
-        let password = document.getElementById('password').value;
+        let checkpassword = document.getElementById('checkpassword').value;
+        let updatepassword = document.getElementById('updatepassword').value;
         let introduction = document.getElementById('introduction').value;
         let image = document.getElementById('image').value;
 
-        let userId = 1;
         let updatedData = {
             username: username,
-            password: password,
+            checkpassword : checkpassword,
+            updatepassword: updatepassword,
             introduction: introduction,
             image: image
         };
-        let url = '/users/' + userId;
+        let url = '/users/update';
 
         fetch(url, {
-            method: 'PUT',
+            method: 'Post',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -89,25 +119,25 @@
         </div>
     </header>
     <div class="container">
-            <h2 class="board">정보 수정</h2>
-          <div class="form-group mb-3">
-            <label for="username" class="d-block">사용자명:</label>
-              <span id="username" class="fw-bold" >유저1</span>
-          </div>
-          <div class="form-group mb-3">
-            <label for="password">비밀번호:</label>
-            <input type="password" class="form-control" id="password" name="password">
-          </div>
-          <div class="form-group mb-3">
-            <label for="introduction">자기소개:</label>
-            <input type="text" class="form-control" id="introduction" name="introduction">
-          </div>
-            <div class="form-group mb-3">
-                <label for="image">이미지 URL:</label>
-                <input type="text" class="form-control" id="image" name="image">
-            </div>
-          <button onclick="updateUser()" class="btn btn-primary">수정완료</button>
-          <a href="/challenges" class="btn btn-outline-primary">메인으로</a>
+<!--            <h2 class="board">정보 수정</h2>-->
+<!--          <div class="form-group mb-3">-->
+<!--            <label for="username" class="d-block">사용자명:</label>-->
+<!--              <span id="username" class="fw-bold" >유저1</span>-->
+<!--          </div>-->
+<!--          <div class="form-group mb-3">-->
+<!--            <label for="password">비밀번호:</label>-->
+<!--            <input type="password" class="form-control" id="password" name="password">-->
+<!--          </div>-->
+<!--          <div class="form-group mb-3">-->
+<!--            <label for="introduction">자기소개:</label>-->
+<!--            <input type="text" class="form-control" id="introduction" name="introduction">-->
+<!--          </div>-->
+<!--            <div class="form-group mb-3">-->
+<!--                <label for="image">이미지 URL:</label>-->
+<!--                <input type="text" class="form-control" id="image" name="image">-->
+<!--            </div>-->
+<!--          <button onclick="updateUser()" class="btn btn-primary">수정완료</button>-->
+<!--          <a href="/challenges" class="btn btn-outline-primary">메인으로</a>-->
       </div>
 </body>
 </html>

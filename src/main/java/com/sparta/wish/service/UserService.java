@@ -1,11 +1,13 @@
 package com.sparta.wish.service;
 
 import com.sparta.wish.dto.User.SignupRequestDto;
+import com.sparta.wish.dto.User.UserProfileRequestDto;
 import com.sparta.wish.dto.User.UserProfileResponseDto;
 import com.sparta.wish.entity.User;
 import com.sparta.wish.jwtUtil.JwtUtil;
 import com.sparta.wish.repository.UserRepository;
 import com.sparta.wish.security.UserDetailsImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class UserService {
 
@@ -57,16 +60,23 @@ public class UserService {
     }
 
     //회원 정보 수정
-    public UserProfileResponseDto update(@AuthenticationPrincipal UserDetailsImpl userDetails, @ModelAttribute SignupRequestDto requestDto){
+    public UserProfileResponseDto update(UserDetailsImpl userDetails, UserProfileRequestDto requestDto){
+        log.info("값 들어오니?");
         User user = userDetails.getUser();
-        user.setUsername(requestDto.getUsername());
-        user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
-        user.setIntroduction(requestDto.getIntroduction());
-        user.setImage(requestDto.getImage());
-        userRepository.save(user);
+        //user.getPassword해서 나온 비밀번호랑 requestDto.getCheckpassword()랑 비교하는것 맞나요?
+        //맞으면
 
-        UserProfileResponseDto userProfileResponseDto = new UserProfileResponseDto(user);
-        return userProfileResponseDto;
+        if(passwordEncoder.matches(requestDto.getCheckpassword(), user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(requestDto.getUpdatepassword()));
+            user.setIntroduction(requestDto.getIntroduction());
+            user.setImage(requestDto.getImage());
+            userRepository.save(user);
+
+            UserProfileResponseDto userProfileResponseDto = new UserProfileResponseDto(user);
+            return userProfileResponseDto;
+        } else {
+            throw new IllegalArgumentException("비밀번호가 틀립니다");
+        }
 
     }
 }
