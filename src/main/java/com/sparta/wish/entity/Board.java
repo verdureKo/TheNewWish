@@ -2,13 +2,10 @@ package com.sparta.wish.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sparta.wish.dto.BoardRequestDto;
-import com.sparta.wish.security.UserDetailsImpl;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.cglib.core.Local;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

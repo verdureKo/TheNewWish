@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @Setter
 @Getter
 @ToString
-public class SignupRequestDto { // 회원가입
+public class SignupRequestDto {
 
     @NotBlank
     private String username;

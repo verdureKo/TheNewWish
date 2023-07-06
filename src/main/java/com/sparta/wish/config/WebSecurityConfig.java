@@ -64,7 +64,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
-                        .requestMatchers("/","/challenges","/challenges/new-user","/users/**","/api/**").permitAll() // 모든 사용자가 사용가능한 URL
+                        .requestMatchers("/**","/challenges","/challenges/new-user","/users/**","/api/**").permitAll() // 모든 사용자가 사용가능한 URL
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리가 필요하다.
         );
         // "/" 메인 화면
