@@ -19,6 +19,7 @@ public class BoardController {
         this.boardService = boardService;
     }
 
+    // 글 작성
     @PostMapping("/new-challenge")
     public String newChallenge(@AuthenticationPrincipal UserDetailsImpl userDetails, BoardRequestDto requestDto) {
         // Authentication 의 Principal 에 저장된 UserDetailsImpl 을 가져옵니다.
@@ -28,9 +29,34 @@ public class BoardController {
         return "redirect:/";
     }
 
-//    @GetMapping("/challenges")
-//    @ResponseBody
-//    public List<BoardResponseDto> getChallenges(){
-//        return boardService.getChallenges();
-//    }
+    // 글 조회
+    @GetMapping("/api/challenges")
+    @ResponseBody
+    public List<BoardResponseDto> getChallenges(){
+        return boardService.getChallenges();
+    }
+
+    // 글 수정
+    @PutMapping("/challenges/{boardId}")
+    public void updateChallenge(@PathVariable Long boardId, @RequestBody BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        // Authentication 의 Principal 에 저장된 UserDetailsImpl 을 가져옵니다.
+        User user =  userDetails.getUser();
+        boardService.updateChallenge(boardId, requestDto, user);
+    }
+
+    // 글 삭제
+    @DeleteMapping("/challenges/{boardId}")
+    public void deleteChallenge(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        // Authentication 의 Principal 에 저장된 UserDetailsImpl 을 가져옵니다.
+        User user =  userDetails.getUser();
+        boardService.deleteChallenge(boardId, user);
+    }
+
+    // 성공, 실패 버튼 구현
+    @PutMapping("challenges/board/states")
+    public void updateState(Long id, int state, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        // Authentication 의 Principal 에 저장된 UserDetailsImpl 을 가져옵니다.
+        User user =  userDetails.getUser();
+        boardService.updateState(id, state, user);
+    }
 }
