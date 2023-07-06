@@ -16,84 +16,85 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
 public class ReplyService {
 
-    public final ReplyRepository replyRepsitory;
+    public final ReplyRepository replyRepository;
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
+//    //Reply 전체 조회 (GPT 작성)
+//    public List<ReplyResponseDto> findAll() {
+//        List<Reply> replies = replyRepository.findAll();
+//        return replies.stream()
+//                .map(ReplyResponseDto::new)
+//                .collect(Collectors.toList());
+//    }
+
+
+    //Reply 전체 조회
+    public List<ReplyResponseDto> findAll() {
+        List<Reply> replies = replyRepository.findAll();
+        List<ReplyResponseDto> responseDtoList = new ArrayList<>();
+
+        for (int i = 0; i < replies.size(); i++) {
+            Reply reply1 = replies.get(i);
+
+            responseDtoList.add(new ReplyResponseDto(reply1.getReply()));
+        }
+
+        return responseDtoList;
+    }
+
+
     // Reply 작성
     @Transactional
-    public ReplyResponseDto createReply(Long boardId, ReplyRequestDto replyRequestDto, HttpServletRequest httpServletRequest) {
-        User user = checkToken(httpServletRequest);
+    public ReplyResponseDto createReply(Long boardId, ReplyRequestDto replyRequestDto, User user) {
 
         Board board = boardRepository.findById(boardId).orElseThrow(
-                () -> new IllegalArgumentException("게시글이 존재하지 않습니다.")
+                () -> new IllegalArgumentException("댓글이 존재하지 않습니다.")
         );
 
         Reply reply = new Reply(user, replyRequestDto, board);
-        replyRepsitory.save(reply);
+        replyRepository.save(reply);
         return new ReplyResponseDto(reply);
     }
 
-    // Reply 수정
-    @Transactional
-    public ReplyResponseDto updateReply(Long replyId, ReplyRequestDto replyRequestDto, HttpServletRequest httpServletRequest) {
-        User user = checkToken(httpServletRequest);
-
-        Reply reply = replyRepsitory.findById(replyId).orElseThrow(
-                () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다.")
-        );
-
-        if (reply.getUser().getUsername().equals(user.getUsername())) {
-            reply.update(replyRequestDto);
-            return new ReplyResponseDto(reply);
-        } else {
-            throw new IllegalArgumentException("작성자만 수정 가능합니다.");
-        }
-    }
+//    // Reply 수정
+//    @Transactional
+//    public ReplyResponseDto updateReply(Long replyId, ReplyRequestDto replyRequestDto, User user) {
+//
+//        Reply reply = replyRepository.findById(replyId).orElseThrow(
+//                () -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다.")
+//        );
+//
+//        if (reply.getUser().getUsername().equals(user.getUsername())) {
+//            reply.update(replyRequestDto);
+//            return new ReplyResponseDto(reply);
+//        } else {
+//            throw new IllegalArgumentException("작성자만 수정 가능합니다.");
+//        }
+//    }
 
     // Reply 삭제
     @Transactional
-    public ApiResult deleteReply(Long replyId, HttpServletRequest httpServletRequest) {
-        User user = checkToken(httpServletRequest);
+    public ApiResult deleteReply(Long replyId, User user) {
 
-        Reply reply = replyRepsitory.findById(replyId).orElseThrow(
+        Reply reply = replyRepository.findById(replyId).orElseThrow(
                 () -> new IllegalArgumentException("해당 댓글은 존재하지 않습니다.")
         );
 
         if (reply.getUser().getUsername().equals(user.getUsername())) {
-            replyRepsitory.delete(reply);
+            replyRepository.delete(reply);
             return new ApiResult("삭제 성공", 200);
         } else {
             return new ApiResult("삭제 실패", 400);
         }
-    }
-
-
-    // Token 체크
-    public User checkToken(HttpServletRequest request) {
-        String token = jwtUtil.resolveToken(request);
-        Claims claims;
-
-        if(token != null) {
-            if (jwtUtil.validateToken(token)) {
-                //토큰에서 사용자 정보 가져오기
-                claims = jwtUtil.getUserInfoFromToken(token);
-            } else {
-                throw new IllegalArgumentException("Token Error");
-            }
-
-            //토큰에서 가져온 사용자 정보를 사용하여 DB조회
-            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
-            );
-            return user;
-        }
-        return null;
     }
 }

@@ -2,6 +2,7 @@ package com.sparta.wish.entity;
 
 import com.sparta.wish.dto.ReplyRequestDto;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,9 +14,6 @@ public class Reply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private String content;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -32,11 +30,17 @@ public class Reply {
 
     public Reply(User user, ReplyRequestDto replyRequestDto, Board board) {
         this.user = user;
-        this.content = replyRequestDto.getContent();
+        this.reply = replyRequestDto.getReply();
         this.board = board;
     }
 
     public void update(ReplyRequestDto replyRequestDto) {
-        this.content = replyRequestDto.getContent();
+        this.reply = replyRequestDto.getReply();
+    }
+
+    public Reply(User user, Board board, String reply) {
+        this.user = user;
+        this.board = board;
+        this.reply = reply;
     }
 }

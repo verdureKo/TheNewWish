@@ -10,12 +10,17 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ReplyResponseDto {
     private Long id;
-    private String content;
+    private String reply;
     private String username;
 
     public ReplyResponseDto(Reply reply) {
         this.id = reply.getId();
-        this.content = reply.getContent();
+        this.reply = reply.getReply();
         this.username = reply.getUser().getUsername();
+    }
+
+
+    public ReplyResponseDto(String reply) {
+        this.reply = reply;
     }
 }
