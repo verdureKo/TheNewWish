@@ -27,6 +27,25 @@
 
         }
     }
+    function checkField(){
+        let inputs = document.inputForm;
+        if(!inputs.username.value){ // name속성이 id인 요소의 value가 없으면 true
+            alert("아이디를 입력하세요.");
+            return false;   // pro페이지로 이동 금지.
+        }
+        if(!inputs.password.value){
+            alert("비밀번호를 입력하세요.");
+            return false;
+        }
+        // if(!inputs.password.value){
+        //     alert("비밀번호 확인란을 입력하세요.");
+        //     return false;
+        // }
+        // if(inputs.u_pw.value != inputs.u_pwch.value){
+        //     alert("비밀번호가 일치하지 않습니다.");
+        //     return false;
+        // }
+    }
     function checkAuthorizationCookie() {
         var cookies = document.cookie.split(";");
 
@@ -58,7 +77,7 @@
     </header>
     <div class="container">
       <!-- 회원가입 POST 사용자명, 비밀번호, 프로필(자기소개) 요청 -->
-        <form class="input-form" method="post" action="/users/new-user">
+        <form class="input-form" method="post" action="/users/new-user" onsubmit="return checkField();" name="inputForm">
             <h2>회원가입</h2>
           <div class="form-group mb-2">
             <label for="username"></label>

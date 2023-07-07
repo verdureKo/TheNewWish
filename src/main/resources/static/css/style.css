@@ -26,8 +26,10 @@ i:hover {color: #fce233 !important; transition: all 0.25s;}
 }
 .container-board {}
 .container-reply {padding: 0 50px;}
-.board {
+.container {
     margin-top:150px;
+    border-radius: 25px;
+    padding: 50px 50px;
 }
 .info-img {
     width: 65px;
@@ -40,6 +42,11 @@ i:hover {color: #fce233 !important; transition: all 0.25s;}
     background-color: #f8f9fa;
     padding : 50px;
     border-radius: 25px;
+}
+.content:hover {
+    transition : 0.5s;
+    -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.17);
+    box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.17);
 }
 .content_field {
     width: 100%;
@@ -69,4 +76,20 @@ i:hover {color: #fce233 !important; transition: all 0.25s;}
     cursor: none;
     border: none;
     background-color: #fff;
+}
+.base-border {
+    border : solid 1px grey;
+    padding: 20px 20px;
+    margin-bottom: 40px;
+    border-radius: 25px;
+}
+.base-box {
+    -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.17);
+    box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.17);
+}
+
+.final {
+    border-radius: 10px;
+    border: 1px solid #d3d3d3;
+    margin-bottom: 12px;
 }
