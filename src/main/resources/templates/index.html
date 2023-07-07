@@ -14,6 +14,7 @@
     <link href="/css/style.css" rel="stylesheet">
     <script>
 
+        let timerInterval;
         let userId;
         let boardId;
         function startTimer(endTime, display) {
@@ -34,22 +35,20 @@
 
             }, 1000);
         }
-    function updateState(state){
-        let url = 'https://example.com/your-endpoint'; // 엔드포인트 URL
+    function updateState(boardId,state){
+        let url = '/challenges/board/states?id='+boardId+'&state='+state; // 엔드포인트 URL
 
-        let data = { state: state};
 
         fetch(url, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
         })
             .then(response => {
                 if (response.ok) {
                     // 요청이 성공적으로 완료됨
-                    return response.text();
+                    window.location.href="/challenges";
                 } else {
                     throw new Error('PUT 요청이 실패하였습니다.');
                 }
@@ -82,6 +81,8 @@
                 let userImage = data[i].user.image;
                 let state = data[i].state;
                 let replyCount = data[i].replyList.length;
+
+
                 // 게시글 템플릿 생성
                 let temp_html = `<div class="row">
                     <div class="col-md-12 board">
@@ -103,13 +104,13 @@
                     <div class="col-md-12 d-flex justify-content-between">
                         <div class="align-items-center d-flex">
                             <h3 class="timer d-inline" id="timer-${boardId}">00:00:00</h3>
-                            <div class="challenge-btn-box d-inline mx-3">
+                            <div class="challenge-btn-box  mx-3" id="challenge-btn-box-${boardId}"style="display: none">
                                 <span class="d-none state" id="state-${boardId}"></span>
                                 <button onclick="success(this.id)" class="btn btn-primary" id="success-btn-${boardId}">성공</button>
                                 <button onclick="fail(this.id)" class="btn btn-outline-primary" id="fail-btn-${boardId}">실패</button>
                             </div>
                         </div>
-                        <div class="align-items-center d-flex">
+                        <div class="align-items-center board-btn-box" id="board-btn-box-${boardId}" style="display: none">
                             <button onclick="updatePage(this.id)" class="btn btn-primary" id="update-btn-${boardId}" value="">글 수정</button>
                             <button onclick="deleteBoard(this.id)" class="btn btn-primary d-block" id="delete-btn-${boardId}" value="글 삭제">글 삭제</button>
                         </div>
@@ -166,7 +167,25 @@
                 } else if (state === 2) {
                     fail(boardId.toString());
                 }
+
+
+                let timeBtnBox = document.getElementById('challenge-btn-box-'+boardId);
+                let boardBtnBox = document.getElementById('board-btn-box-'+boardId);
+                try{
+                    console.log(loggedUesrname+" : 로그인된 아이디")
+                    console.log(userName+" : 게시물작성자 아이디")
+                    if(loggedUesrname !== 'undefined'){
+                        if(loggedUesrname === userName){
+                            timeBtnBox.style.display = "inline";
+                            boardBtnBox.style.display = "flex";
+                        }
+                    }
+                } catch (e){
+
+                }
+
             }
+
         })
         .catch(error => {
             // 오류 처리 로직을 작성합니다.
@@ -380,34 +399,7 @@
             fail_btn.disabled = true
             update_btn.disabled = true
             stopTimer();
-            updateState(2)
-
-        var url = 'https://example.com/your-endpoint'; // 엔드포인트 URL
-
-        var data = { status: 'your status data' };
-
-        fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then(response => {
-                if (response.ok) {
-                    // 요청이 성공적으로 완료됨
-                    return response.text();
-                } else {
-                    throw new Error('PUT 요청이 실패하였습니다.');
-                }
-            })
-            .then(responseText => {
-                console.log(responseText);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-
+            updateState(extracted,1)
     }
     function fail(postId){
         let extracted;
@@ -429,7 +421,8 @@
             update_btn.disabled = true
             timer.content = '00:00:00';
 
-            updateState(2)
+            stopTimer();
+            updateState(extracted,2)
     }
     function logout() {
         document.cookie = "Authorization=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
