@@ -5,10 +5,12 @@ import com.sparta.wish.dto.User.UserProfileRequestDto;
 import com.sparta.wish.dto.User.UserProfileResponseDto;
 import com.sparta.wish.security.UserDetailsImpl;
 import com.sparta.wish.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +38,7 @@ public class UserController {
     // 회원검증 실패 - 현재 화면
     // 회원가입 실패 - 현재 화면
     @PostMapping("/new-user")
-    public String signup(@ModelAttribute @Valid SignupRequestDto requestDto, BindingResult bindingResult) {
+    public String signup(@Valid @ModelAttribute("requestDto") SignupRequestDto requestDto, BindingResult bindingResult, HttpServletRequest request) {
         log.info("requestDto={}", requestDto);
         if (bindingResult.hasErrors()) {
             return "signup";

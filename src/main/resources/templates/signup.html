@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -42,6 +41,27 @@
         // "Authorization" 쿠키가 존재하지 않는 경우 false 반환
         return false;
     }
+
+    function checkField(){
+        let inputs = document.inputForm;
+        if(!inputs.username.value){	// name속성이 id인 요소의 value가 없으면 true
+            alert("아이디를 입력하세요.");
+            return false;	// pro페이지로 이동 금지.
+        }
+        if(!inputs.password.value){
+            alert("비밀번호를 입력하세요.");
+            return false;
+        }
+        if(!inputs.checkpassword.value){
+            alert("비밀번호 확인란을 입력하세요.");
+            return false;
+        }
+        if(inputs.password.value != inputs.checkpassword.value){
+            alert("비밀번호가 일치하지 않습니다.");
+            return false;
+        }
+    }
+
 </script>
 <body>
     <header class="d-flex justify-content-between align-items-middle bg-light bg-gradient">
@@ -58,7 +78,7 @@
     </header>
     <div class="container">
       <!-- 회원가입 POST 사용자명, 비밀번호, 프로필(자기소개) 요청 -->
-        <form class="input-form" method="post" action="/users/new-user">
+        <form class="input-form" method="post" action="/users/new-user" onsubmit="return checkField();" name="inputForm">
             <h2>회원가입</h2>
           <div class="form-group mb-2">
             <label for="username"></label>
@@ -67,7 +87,11 @@
           <div class="form-group mb-2">
             <label for="password"></label>
             <input type="password" class="form-control content_field" id="password" name="password" placeholder="비밀번호를 입력해주세요">
-          </div>
+              <div class="form-group mb-2">
+                  <label for="checkpassword"></label>
+                  <input type="password" class="form-control content_field" id="checkpassword" name="checkpassword" placeholder="비밀번호를 확인">
+              </div>
+
           <div class="form-group mb-2">
             <label for="introduction"></label>
             <input type="text" class="form-control content_field" id="introduction" name="introduction" placeholder="한 줄 소개를 입력해주세요">
