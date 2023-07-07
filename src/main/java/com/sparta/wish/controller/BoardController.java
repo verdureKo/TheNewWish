@@ -57,7 +57,7 @@ public class BoardController {
 
     // 성공, 실패 버튼 구현
     @ResponseBody
-    @PutMapping("challenges/board/states")
+    @PutMapping("/challenges/board/states")
     public void updateState(Long id, int state, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         // Authentication 의 Principal 에 저장된 UserDetailsImpl 을 가져옵니다.
         User user =  userDetails.getUser();
