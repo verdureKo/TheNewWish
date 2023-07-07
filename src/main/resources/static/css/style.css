@@ -5,23 +5,27 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #f1f1f1;
-    padding: 20px;
+    height: 55px;
+    z-index: 1000;
 }
 a {
     text-decoration: none;
     color: black;
 }
 a:hover {
-    color: black;
+    color: #6c757d !important;
 }
+i {color: black;}
+i:hover {color: #fce233 !important; transition: all 0.25s;}
+
 @media (min-width: 992px) {
     .container {
         width: 940px;
         top: 300px;
     }
-
 }
+.container-board {}
+.container-reply {padding: 0 50px;}
 .board {
     margin-top:150px;
 }
@@ -32,8 +36,17 @@ a:hover {
 }
 .content {
     width: 100%;
-    border: 2px grey dotted;
+    border: none;
+    background-color: #f8f9fa;
+    padding : 50px;
+    border-radius: 25px;
+}
+.content_field {
+    width: 100%;
+    background-color: #f8f9fa;
     padding : 10px;
+    border-radius: 10px;
+    border: none;
 }
 .divide-line {
     margin: 50px 0px;
@@ -45,4 +58,15 @@ a:hover {
 }
 .input-form {
     margin-top:150px;
+}
+.challenge-btn-box {
+    position: relative;
+}
+.timer {
+    width: 100px;
+}
+.reply-badge {
+    cursor: none;
+    border: none;
+    background-color: #fff;
 }
