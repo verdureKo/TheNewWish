@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.Optional;
 
@@ -61,7 +60,6 @@ public class UserService {
 
     //회원 정보 수정
     public UserProfileResponseDto update(UserDetailsImpl userDetails, UserProfileRequestDto requestDto){
-        log.info("값 들어오니?");
         User user = userDetails.getUser();
         //user.getPassword해서 나온 비밀번호랑 requestDto.getCheckpassword()랑 비교하는것 맞나요?
         //맞으면
