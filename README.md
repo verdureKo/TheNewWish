@@ -67,7 +67,7 @@
 ---
 
 ## 실행
-1. `application.properties` 
+1. `application.properties`
    - DB 비밀번호 설정
 2. `build.gradle`
    - 코끼리 때리기
@@ -82,9 +82,9 @@
 1. 뉴스 피드(메인) 기능
 2. 타이머 기능
 3. 사용자 인증
-    - 회원가입
-    - 로그인 및 로그아웃
-    - 프로필 수정
+   - 회원가입
+   - 로그인 및 로그아웃
+   - 프로필 수정
 4. 게시물 CRUD 기능
 5. 댓글 CRUD 기능
 6. 화면 구현
@@ -224,7 +224,7 @@
 5. Open a Pull Request
 
 ## Acknowledgments
-이 공간에 유용하다고 생각하고 공로를 인정하고 싶은 리소스를 나열해주세요. 
+이 공간에 유용하다고 생각하고 공로를 인정하고 싶은 리소스를 나열해주세요.
 우리는 일을 시작하기 위해 유용한 몇 가지를 포함했습니다!
 
 - [토스트 UI 코딩 컨벤션](https://ui.toast.com/fe-guide/ko_CODING-CONVENTION)
