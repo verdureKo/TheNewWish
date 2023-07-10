@@ -27,10 +27,6 @@
             notLoginBox.style.display = "none";
         }
 
-
-
-        //---
-
         let cookie = getCookie("Authorization")
         let token = cookie.substring(9);
 
@@ -58,10 +54,6 @@
         // "Authorization" 쿠키가 존재하지 않는 경우 false 반환
         return false;
     }
-
-
-
-
     function getCookie(name) {
         const value = "; " + document.cookie;
         const parts = value.split("; " + name + "=");
@@ -75,11 +67,6 @@
         const decodedData = JSON.parse(decodeURIComponent(atob(base64)));
         return decodedData;
     }
-
-
-
-
-
 </script>
 <body>
     <header class="d-flex justify-content-between align-items-middle bg-light bg-gradient">
@@ -87,7 +74,7 @@
         <div class="is-login-box p-2" id="is-login-box" style="display: none;">
             <a href="/new-challenge" class="ms-4 fs-4"><i class="fa-solid fa-pen-to-square fa"></i></a>
             <a href="/users"><i class="fa-solid fa-user-pen fa-lg ms-4"></i></a>
-            <div type="button" onclick="logout()" class="d-inline"><i class="fa-solid fa-person-walking-arrow-right fa-xl ms-4"></i></div>
+            <a type="button" onclick="logout()" class="d-inline"><i class="fa-solid fa-person-walking-arrow-right fa-xl ms-4"></i></a>
         </div>
         <div class="not-login-box m-3" id="not-login-box">
             <a href="/users/login"><i class="fa-solid fa-user-check fa-lg ms-4"></i></a>
@@ -95,12 +82,11 @@
         </div>
     </header>
     <div class="container">
+        <div class="board mb-5 fs-2 fw-bold">챌린지 작성</div>
         <div class="row">
             <div class="col-md-12 board">
-                <div class="info-box">
-                    <span class="fw-bold fs-3">유저 아이디 : </span>
-                    <span class="info-name fw-bold fs-3" id="userName"></span>
-                </div>
+                <span class="fw-bold fs-3">유저 아이디 : </span>
+                <span class="info-name fw-bold fs-3 ms-3" id="userName"></span>
             </div>
         </div>
         <!-- 글 작성 POST, 제목, 내용, 타이머 전달  -->

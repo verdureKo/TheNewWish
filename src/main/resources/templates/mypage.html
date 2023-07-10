@@ -69,10 +69,12 @@
                     let image = data.image;
 
                     // 게시글 템플릿 생성
-                    let temp_html = `<h2 class="board mb-3">정보 수정</h2>
-          <div class="form-group mb-3">
-            <label for="username" class="d-block">아이디</label>
-              <span id="username" class="fw-bold fs-3" >${username}</span>
+                    let temp_html = `<div class="board fs-2 fw-bold mb-5">정보 수정</div>
+          <div class="row">
+              <div class="col-md-12 board">
+                  <span class="fw-bold fs-3">유저 아이디 : </span>
+                  <span class="info-name fw-bold fs-3 ms-3" id="username">${username}</span>
+              </div>
           </div>
           <div class="form-group mb-2">
             <label for="checkpassword"></label>
